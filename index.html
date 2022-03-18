@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <!-- 
+
+            Пердача данных между компонентами:
+            
+            prop: Передача данных на компонент. Prop выглядит как атрибут. Для создания prop нужно поставить ":" далее прописать имя prop как будет использоваться в комопненте и в значение сами данные. В нутри       компонента создать ключь props и значение массив в котором содержится название prop в строковом типе. В нутри компонента для использования prop пишется просто this.название prop
+            Например
+                :поиск="передаваемые данные" => :search="this.search"
+                props: ['search']
+                this.search
+                
+            ________________
+            emit: Передача данных из компонента. Для создания emit в методе компонета нужно прописать this.$emit(название emit, передаваемые данные). Для получения данных в основной части нужно создать специальный аттрибут @название emit="метод который будет обрабатывать данные". Метод который будет принимать данные получает аргументы
+            Например
+                @value-search="valueSearch"
+                this.$emit('value-search', value)
+                valueSearch(value) {}
+
+         -->
+
+        <!-- App Bar -->
+        <!-- 
+        <appbar 
+            :search="this.enableSearch" prop
+            :value="this.searchValue" prop
+            @update-appbar="updateAppbar" emit
+            @value-appbar="valueAppbar" emit> 
+        </appbar>
+        -->
+        <appbar 
+            :search="this.enableSearch"
+            :value="this.searchValue"
+            :lang="lang"
+            :langword="langword"
+            @update-appbar="updateAppbar" 
+            @change-lang="changeLang" 
+            @value-appbar="valueAppbar">
+        </appbar>
+
+        <!-- Info Bar -->
+        <infotitle 
+            :title="this.enableSearch" 
+            :gridorlist="this.gridOrList" 
+            :lang="lang"
+            :langword="langword"
+            @change-state="changeStateBtn">
+        </infotitle>
+
+        <!-- List View -->
+        <div class="container">
+            <div :class="{list: !gridOrList, grid: gridOrList}" v-if="list.length > 0">
+                <list 
+                    v-for="(item, index) in list" 
+                    :i="index" 
+                    :item="item" 
+                    :search="this.enableSearch"
+                    :lang="lang"
+                    :langword="langword"
+                    @del-item="delItem" 
+                    @edit-item="editItem"
+                    v-if="!enableSearch" 
+                    :gridorlist="gridOrList">
+                </list>
+                <list 
+                    v-for="(item, index) in filterList" 
+                    :i="index" 
+                    :item="item" 
+                    :lang="lang"
+                    :langword="langword"
+                    :search="this.enableSearch" 
+                    v-else 
+                    :gridorlist="gridOrList">
+                </list>
+            </div>
+            <div class="notodo" v-else>
+                Заметок нет
+            </div>
+        </div>
+        <!-- Dialog Window -->
+        <transition name="scale">
+            <windowadd 
+                :window="window" 
+                :edit="edit" 
+                :editcontent="editContent" 
+                :lang="lang"
+                :langword="langword"
+                @add-item="addItem" 
+                @edit-item="editNewItem" 
+                @change-state-window="changeStateWindow" 
+                v-if="window">
+            </windowadd>
+        </transition>
+
+        <!-- Float Action Button -->
+        <transition name="scale-fade">
+            <btn 
+                :window="window" 
+                :lang="lang"
+                :langword="langword"
+                @change-state-window="changeStateWindow" 
+                v-if="!window && !enableSearch">
+            </btn>
+        </transition>
+    </div>
+
+    <script src="script/script.js" type="module"></script>
+</body>
+
+</html>
