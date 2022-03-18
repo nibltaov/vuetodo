@@ -13,6 +13,7 @@ const lang = {
         closebtn: 'Отмена',
         addbtn: 'Добавить',
         editwindowbtn: 'изменить',
+        nonote: 'Заметок нет',
     }, 
     uz: {
         appbartitle: 'Eslatmalar',
@@ -28,6 +29,7 @@ const lang = {
         closebtn: "Bekor qilish",
         addbtn: "Qo’shish",
         editwindowbtn: "o'zgartirish",
+        nonote: 'Eslatmalar mavjud emas',
     }
 }
 
